@@ -1,0 +1,26 @@
+@(title: String, taskForm: Form[Task])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="assets/stylesheets/main.css">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("js/interpreter.js")">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="scala-interpreter">Scala interpreter</div>
+
+        @helper.form(routes.Application.index) {
+            @helper.input(taskForm("in")) { (id, name, value, args) =>
+                <textarea type="textarea" name="@name" id="@id" @toHtmlArgs(args) style="height: 480px; width: 950px;" spellcheck="false">@value</textarea>
+            }
+            @helper.input(taskForm("out")) { (id, name, value, args) =>
+                <textarea type="textarea" name="@name" id="@id" @toHtmlArgs(args) style="height: 150px; width: 550px;" spellcheck="false">@value</textarea>
+            }
+            <input type="submit" value="Create">
+        }
+    </body>
+</html>
