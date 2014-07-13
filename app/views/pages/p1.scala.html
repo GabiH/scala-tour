@@ -2,17 +2,41 @@
 
 @import helper._
 
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=1024" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <title>@Messages("p1.title")</title>
-        <link rel="stylesheet" media="screen" href="assets/stylesheets/main.css">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("js/interpreter.js")">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+        <meta name="author" content="Gabriel Herisanu" />
+
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+        <link href="/assets/stylesheets/presentation/common/impress-demo.css" rel="stylesheet" />
+        <link href="/assets/stylesheets/presentation/common/bootstrap.css" rel="stylesheet">
+        <link href="/assets/stylesheets/presentation/common/bootstrap-responsive.css" rel="stylesheet">
+
+        <link href="/assets/stylesheets/presentation/common/bootstrap-custom.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="/assets/images/favicon.png" />
+        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     </head>
-    <body>
-        <div id="scala-interpreter"></div>
 
+    <body class="impress-not-supported">
+        @modules.presentation.p1.content()
 
+        <div class="hint">
+            <p>Use a spacebar or arrow keys to navigate</p>
+        </div>
+        <script>
+            if ( "ontouchstart" in document.documentElement ) {
+                document.querySelector ( ".hint" ).innerHTML = "<p>Tap on the left or right to navigate</p>" ;
+            }
+        </script>
+
+        <script src="/assets/javascripts/impress.js"></script>
+        <script>impress ( ).init ( ) ;</script>
     </body>
-</html>2
+</html>
