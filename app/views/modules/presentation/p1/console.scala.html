@@ -1,0 +1,27 @@
+@(code: String, description: String = "")
+
+<div class="row-fluid">
+    <div class="span8">
+        <div class="workspace">
+            <div class="controls">
+                <button type="button" class="run btn btn-primary" title="Compile and Run">Run</button>
+            </div>
+            <div class="workspace-top">
+                <div class="workspace-editor">
+                    <form>
+                        <textarea class="editor" spellcheck="false">@code</textarea>
+                    </form>
+                </div>
+            </div>
+            <div class="workspace-bottom">
+                <div class="output"></div>
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        @Html(description)
+        <div class="step-nav">
+            <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+        </div>
+    </div>
+</div>

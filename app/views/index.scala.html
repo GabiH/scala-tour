@@ -14,13 +14,9 @@
         <div id="scala-interpreter">Scala interpreter</div>
 
         @helper.form(routes.Application.index) {
-            @helper.input(taskForm("in")) { (id, name, value, args) =>
-                <textarea type="textarea" name="@name" id="@id" @toHtmlArgs(args) style="height: 480px; width: 950px;" spellcheck="false">@value</textarea>
-            }
-            @helper.input(taskForm("out")) { (id, name, value, args) =>
-                <textarea type="textarea" name="@name" id="@id" @toHtmlArgs(args) style="height: 150px; width: 550px;" spellcheck="false">@value</textarea>
-            }
-            <input type="submit" value="Create">
+            @helper.textarea(taskForm("in"), 'rows -> 30, 'cols -> 110, 'spellcheck -> false)
+            @helper.textarea(taskForm("out"), 'rows -> 10, 'cols -> 110, 'spellcheck -> false)
+            <input type="submit" value="Submit">
         }
     </body>
 </html>

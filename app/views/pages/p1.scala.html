@@ -2,41 +2,67 @@
 
 @import helper._
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=1024" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=1024">
         <title>@Messages("p1.title")</title>
 
-        <meta name="author" content="Gabriel Herisanu" />
-
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
-
-        <link href="/assets/stylesheets/presentation/common/impress-demo.css" rel="stylesheet" />
+        <link href="/assets/stylesheets/presentation/p1/impress-demo.css" rel="stylesheet">
         <link href="/assets/stylesheets/presentation/common/bootstrap.css" rel="stylesheet">
         <link href="/assets/stylesheets/presentation/common/bootstrap-responsive.css" rel="stylesheet">
-
-        <link href="/assets/stylesheets/presentation/common/bootstrap-custom.css" rel="stylesheet">
-
-        <link rel="shortcut icon" href="/assets/images/favicon.png" />
-        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+        <link href="/assets/stylesheets/presentation/p1/codemirror.css" rel="stylesheet">
+        <link href="/assets/stylesheets/presentation/p1/solarized.css" rel="stylesheet">
+        <link href="/assets/stylesheets/presentation/p1/scala-tour.css" rel="stylesheet">
     </head>
-
-    <body class="impress-not-supported">
-        @modules.presentation.p1.content()
-
+    <body id="body" class="impress-not-supported onload">
+        <div class="navbar navbar-fixed-top" style="pointer-events : auto ;">
+            <div class="navbar-inner">
+                <div class="container" style="width : 1020px">
+                    <a id="logo" class="brand" href="#/welcome"><img src="img/logo.png">Scala Tour</a>
+                    <ul class="nav">
+                        <li class="">
+                            <a href="#/overview">Overview</a>
+                        </li>
+                        <li class="">
+                            <a href="#/about">About</a>
+                        </li>
+                    </ul> <span class="doc"><i class="icon-list">&nbsp;</i><a href="http://docs.scala-lang.org/" target="_blank">
+                    Doc</a></span>
+                </div>
+            </div>
+        </div>
+        <div id="brower-not-support" class="alert fallback-message">
+            <p>
+                <strong>Warning!</strong> Your browser <b>doesn't support the features required</b>.
+            </p>
+            <p>
+                For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.
+            </p>
+        </div>
+        <div id="impress">
+            @modules.presentation.p1.content()
+        </div>
         <div class="hint">
             <p>Use a spacebar or arrow keys to navigate</p>
         </div>
-        <script>
-            if ( "ontouchstart" in document.documentElement ) {
-                document.querySelector ( ".hint" ).innerHTML = "<p>Tap on the left or right to navigate</p>" ;
-            }
-        </script>
+        <div style="position : fixed ; bottom : 0px ; left : 10px ; pointer-events : auto ; width : 100% ;">
+            <div class="container" style="width : 1024px">
 
-        <script src="/assets/javascripts/impress.js"></script>
-        <script>impress ( ).init ( ) ;</script>
+            </div>
+        </div>
+        <script>
+        if ( "ontouchstart" in document.documentElement ) {
+        document.querySelector ( ".hint" ).innerHTML = "<p>Tap on the left or right to navigate<\/p>" ;
+        }
+        </script>
+        <script src="/assets/javascripts/presentation/p1/jquery.min.js"></script>
+        <script src="/assets/javascripts/presentation/p1/bootstrap.js"></script>
+        <script src="/assets/javascripts/presentation/p1/impress.js"></script>
+        <script src="/assets/javascripts/presentation/p1/codemirror.min.js"></script>
+        <script src="/assets/javascripts/presentation/p1/matchbrackets.js"></script>
+        <script src="/assets/javascripts/presentation/p1/clike.js"></script>
+        <script src="/assets/javascripts/presentation/p1/scala-tour.js"></script>
     </body>
 </html>
