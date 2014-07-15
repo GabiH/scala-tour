@@ -1,0 +1,40 @@
+@(pages : List[(String, String)])
+
+<div class="row-fluid">
+    <div class="pages">
+        @if(!pages.isEmpty) {
+            @for((page, index) <- pages zip(1 to pages.size) ) {
+                <div class="page" data-index="@index" @if(index != 1) { style="display:none;" } >
+                    <div class="span8">
+                        <div class="workspace">
+                            <div class="controls">
+                                <button type="button" class="run btn btn-primary" title="Compile and Run">Run</button>
+                            </div>
+                            <div class="workspace-top">
+                                <div class="workspace-editor">
+                                    <form>
+                                        <textarea class="editor" spellcheck="false" style="overflow:hidden;">@page._1</textarea>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="workspace-bottom">
+                                <div class="output"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        @Html(page._2)
+                        <div class="step-nav">
+                            @if(pages.size > 1) {
+                                <a class="btn prev @if(index == 1) { disabled }" type="button" @if(index == 1) { disabled="disabled" }>&lt;</a>
+                                <a class="btn next @if(index == pages.size) { disabled }" type="button" @if(index == pages.size) { disabled="disabled" }>&gt;</a>
+                            }
+                            <br/>
+                            <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
