@@ -121,6 +121,20 @@ document.addEventListener("impress:add-active", function(event) {
 
 }, false);
 
+jQuery(".pages .page a.next:not('.disabled')").on("click", function() {
+    var $page = jQuery(this).closest(".page");
+
+    $page.hide();
+    $page.parent().find("div.page[data-index=\"" + (parseInt($page.attr("data-index")) + 1) + "\"]").show();
+});
+
+jQuery(".pages .page a.prev:not('.disabled')").on("click", function() {
+    var $page = jQuery(this).closest(".page");
+
+    $page.hide();
+    $page.parent().find("div.page[data-index=\"" + (parseInt($page.attr("data-index")) - 1) + "\"]").show();
+});
+
 
 document.getElementById("body").className = document.getElementById("body").className.replace('onload', ' ');
 impress().init();
