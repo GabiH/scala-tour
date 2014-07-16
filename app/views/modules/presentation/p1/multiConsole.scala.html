@@ -25,11 +25,6 @@
                     <div class="span4">
                         @Html(page._2)
                         <div class="step-nav">
-                            @if(pages.size > 1) {
-                                <a class="btn prev @if(index == 1) { disabled }" type="button" @if(index == 1) { disabled="disabled" }>&lt;</a>
-                                <a class="btn next @if(index == pages.size) { disabled }" type="button" @if(index == pages.size) { disabled="disabled" }>&gt;</a>
-                            }
-                            <br/>
                             <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
                         </div>
                     </div>

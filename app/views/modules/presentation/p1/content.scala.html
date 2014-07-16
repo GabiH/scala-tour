@@ -1,22 +1,37 @@
 <div id="welcome" class="step" data-x="-3500" data-y="-2000">
     <h1>
+        <img src="/assets/images/smooth-spiral.png">
         <span class="scala-red">Scala</span> Tour
     </h1>
-    <p>Start your Exciting Scala Tour</p>
-    <br/><br/> <br/>
-    <div class="step-nav">
-        <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
-    </div>
 </div>
 
 <div id="hello-world" class="step slide" data-x="-2000" data-y="-2000">
-    <div class="row-fluid">
-        @modules.presentation.p1.console(
-          """
-            | println("test")
-          """.stripMargin,
-          """<h2>Hello World</h2>""")
-    </div>
+    @commonDescription = @{"""
+        <h2>Hello World</h2>
+        <p>
+        	<b>Scala</b> is a popular <b>functional</b>/<b>object-oriented</b> programming language built on top of the <b>Java virtual machine (JVM)</b>.
+        </p>
+        <p>
+        	The tour will introduce some powerful Scala features. And you could learn how to use them effectively through experimentation.
+        </p>
+        <p>
+        	The tour is interactive. Click the <b>Run</b> button now to compile and run the program on a remote server.  The result is displayed below the code. You can edit it and run your own code.
+        </p>
+        <p>
+        	Use the space bar or arrow keys to navigate
+        </p>   """
+    }
+
+    @modules.presentation.p1.multiConsole(List(
+        ("""
+          |println("Hello, world!")
+        """.stripMargin, commonDescription
+        ),
+        ("""
+          |println("Hello, world! There is no return :) ")
+          """.stripMargin, commonDescription
+        ))
+    )
 </div>
 
 <div id="hello-world2" class="step slide" data-x="-500" data-y="-2000">
@@ -39,23 +54,17 @@
           | println("addOne(squareVal,2):" + addOne(squareVal, 2))
         """.stripMargin,
         """
-            |<h2>
-            |    Expressions and Values
-            |</h2>
+            |<h2>Expressions and Values</h2>
             |<p>
             |    In Scala, almost everything is an expression.
             |</p>
             |<pre>println("hello wolrd")</pre>
-            |<p>
-            |    is an expression,
-            |</p>
+            |
+            |<p>is an expression,</p>
             |<pre>"hello"+" world"</pre>
-            |<p>
-            |    is also an expression.
-            |</p>
-            |<p>
-            |    Constants can be created with val, and variables can be created with var. More constants are better.
-            |</p>
+            |
+            |<p>is also an expression.|</p>
+            |<p>Constants can be created with val, and variables can be created with var. More constants are better.</p>
         """.stripMargin
     )
     </div>
