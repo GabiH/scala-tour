@@ -69,9 +69,8 @@ object Application extends Controller {
 
       (outEvents, errEvents)
     } catch {
-      case x: CompilerException => {
-        (List(), ExceptionUtils.getMessage(x).lines.toList)
-      }
+      case x: CompilerException => (List(), ExceptionUtils.getMessage(x).lines.toList)
+      case x: Exception => (List(), ExceptionUtils.getMessage(x).lines.toList)
     }
   }
 
