@@ -52,6 +52,24 @@
             }
         };
 
+        var interpretCode = function () {
+            var $page = $container.find("div.page[data-index=\"" + params.index + "\"]");
+
+            var editorText = $page.find(".editor");
+            var outputDiv = $page.find(".output");
+
+            if (typeof(ST) != "undefined" && typeof(ST.editor) != "undefined" && typeof(ST.editor.get) == "function" &&
+                typeof(ST.interpreter) != "undefined" && typeof(ST.interpreter.loading) == "function" && typeof(ST.interpreter.run) == "function") {
+                var editor = ST.editor.get(editorText);
+
+                if (typeof(editor) != "undefined") {
+                    ST.interpreter.loading(outputDiv);
+                    editor.save();
+                    ST.interpreter.run(editor.getValue(), outputDiv.find("pre"));
+                }
+            }
+        };
+
         var checkFocus = function () {
             return $("body").hasClass("impress-on-" + $container.closest(".step.slide").attr("id"));
         }
@@ -66,7 +84,7 @@
             });
 
             $(document).on("keyup", function (event) {
-                if ((event.keyCode === 33 || event.keyCode === 38 || event.keyCode === 34 || event.keyCode === 40) && checkFocus()) {
+                if ((event.keyCode === 33 || event.keyCode === 38 || event.keyCode === 34 || event.keyCode === 40 || event.keyCode === 13) && checkFocus()) {
                     switch (event.keyCode) {
                         case 33: // pg up
                         case 38: // up
@@ -75,6 +93,9 @@
                         case 34: // pg down
                         case 40: // down
                             slideRight();
+                            break;
+                        case 13: // enter
+                            interpretCode();
                             break;
                     }
                     event.preventDefault();
