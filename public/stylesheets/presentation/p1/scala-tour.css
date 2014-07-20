@@ -294,10 +294,10 @@ background: rgba(255,255,255,0);
 }
 
 .contents li{
-list-style-image:url('../img/glyphicons_065_tag.png');
+list-style-image:url('/assets/images/glyphicons_065_tag.png');
 }
 .contents .overview-li{
-list-style-image:url('../img/glyphicons_221_unshare.png');
+list-style-image:url('/assets/images/glyphicons_221_unshare.png');
 }
 
 .contents li{
