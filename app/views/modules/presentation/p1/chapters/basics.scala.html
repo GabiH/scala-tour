@@ -1,0 +1,346 @@
+
+@buttons = @{
+    """ <div class="step-nav">
+           <a class="btn pre-step" type="button"><i class="icon-arrow-left">&nbsp;</i>Prev Page</a> <a class="btn" type="button" href="#/basics-contents"><i class="icon-arrow-up">&nbsp;</i>Content</a> <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+        </div>"""
+}
+
+<div id="basics" class="step direction" data-x="0" data-y="-500" data-scale="2">
+    <div class="chapter">
+        <h2>
+            <span class="mouse">Basic</span><a class="btn btn-primary btn-large" href="#/basics-contents">Start</a>
+        </h2>
+    </div>
+</div>
+
+<div id="basics-contents" class="step contents slide deeply" data-x="-3500" data-y="-2000" data-z="-3000" data-scale="1">
+    <div>
+        <h2>Content (Basic)</h2>
+
+        <ul>
+            <li><a href="#/expression-and-values">Expressions and Values</a></li>
+            <li><a href="#/first-class-function">First class Functions</a></li>
+            <li><a href="#/loan-pattern">Loan Pattern</a></li>
+            <li><a href="#/pass-by-name">Call by Name</a></li>
+            <li><a href="#/define-class">Define Class</a></li>
+            <li><a href="#/duck-type">Duck Typing</a></li>
+            <li><a href="#/currying">Currying</a></li>
+            <li><a href="#/traits">Traits</a></li>
+        </ul>
+    </div>
+    <div class="step-nav">
+        <a class="btn" type="button" href="#/overview"><i class="icon-arrow-up">&nbsp;</i>Overview</a> <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+    </div>
+</div>
+
+<div id="expression-and-values" class="step slide deeply" data-x="-2000" data-y="-2000" data-z="-3000">
+
+</div>
+
+<div id="first-class-function" class="step slide deeply" data-x="-500" data-y="-2000" data-z="-3000">
+    @firstClassFunctionDescription = @{
+        """<h2>First class Functions</h2>
+
+            <p>You can create functions with def. And the function body is an expression.</p>
+            <p>When the body is a block expression, it returns the value of the last line. So there's no need to use the return keyword</p>
+            <p>And like values, functions can also be assigned using var or val, so <span class="important"> it can be passed as an argument to another function.</span></p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |def square(a: Int) = a * a
+                |
+                |def squareWithBlock(a: Int) = {
+                |  a * a
+                |}
+                |
+                |val squareVal = (a: Int) => a * a
+                |
+                |def addOne(f: Int => Int, arg: Int) = f(arg) + 1
+                |
+                |println("square(2):" + square(2))
+                |println("squareWithBlock(2):" + squareWithBlock(2))
+                |println("squareVal(2):" + squareVal(2))
+                |println("addOne(squareVal,2):" + addOne(squareVal, 2))
+            """.stripMargin, firstClassFunctionDescription)
+        ), buttons
+    )
+</div>
+
+<div id="loan-pattern" class="step slide deeply" data-x="1000" data-y="-2000" data-z="-3000">
+    @loanPatternDescription = @{
+        """<h2>Loan Pattern</h2>
+
+        <p>For functions which can be passed as arguments, the 'Loan' pattern is easy to implement.</p>
+        <p>This example writes/reads to/from a provided file</p>
+        <p>Because the 'printTo' and 'readFrom' functions encapsulates the 'try-finally' block,there's no need to
+            <span class="important">call 'close()' any more</span>.。</p>
+        <p>PS: the expression's return type is 'Unit' when it doesn't return a value.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |def printTo(file: java.io.File)(op: java.io.PrintWriter => Unit) {
+                |  val writer = new java.io.PrintWriter(file)
+                |  try { op(writer) } finally { writer.close() }
+                |}
+                |
+                |def readFile[T](f: java.io.File)(handler: java.io.FileInputStream => T): T = {
+                |  val resource = new java.io.FileInputStream(f)
+                |  try { handler(resource) } finally { resource.close() }
+                |}
+                |
+                |val file = java.io.File.createTempFile("test", ".scala")
+                |printTo(file){
+                |   op => op.append("Some content")
+                |}
+                |
+                |readFile(file) {
+                |  handler => scala.io.Source.fromInputStream(handler).getLines()
+                |   .foreach(println _)
+                |}
+            """.stripMargin, loanPatternDescription)
+        ), buttons
+    )
+</div>
+
+<div id="pass-by-name" class="step slide deeply" data-x="2500" data-y="-2000" data-z="-3000">
+    @passByNameDescription = @{
+        """ <h2>Call by Name</h2>
+
+            <p>This example shows the call by name, When the last line tries to calculate '1 / 0', the program will throw an exception.</p>
+
+            <p>Try to change</p>
+            <pre>def log(msg: String)</pre>
+            <p>to</p>
+            <pre>def log(msg: => String)</pre>
+
+            <p>The program will not throw an exception because it has been changed to call-by-name</p>
+            <p>Call-by-name means that the argument will be calculated when it is actually called. So the '1 / 0' will be skipped.</p>
+            <p>Call-by-name can reduce the useless calculation and exception.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |val logEnable = false
+                |
+                |def log(msg: String) =
+                |  if (logEnable) println(msg)
+                |
+                |val MSG = "programing is running"
+                |
+                |log(MSG + 1 / 0)
+
+            """.stripMargin, passByNameDescription),
+            ("""
+                |val logEnable = false
+                |
+                |def log(msg: => String) =
+                |  if (logEnable) println(msg)
+                |
+                |val MSG = "programing is running"
+                |
+                |log(MSG + 1 / 0)
+
+            """.stripMargin, passByNameDescription),
+            ("""
+                |val logEnable = true
+                |
+                |def log(msg: => String) =
+                |  if (logEnable) println(msg)
+                |
+                |val MSG = "programing is running"
+                |
+                |log(MSG + 1 / 0)
+
+            """.stripMargin, passByNameDescription)
+        ), buttons
+    )
+</div>
+
+<div id="define-class" class="step slide deeply" data-x="4000" data-y="-2000" data-z="-3000">
+    @defineClassDescription = @{
+        """ <h2>Define Class</h2>
+
+            <p>The <span class="important">'class'</span> keyword defines a class, and the <span class="important">'new'</span> keyword creates an instance.</p>
+            <p>The fields can be also defined in class, like the 'numer' and 'denom'. These are automatically generated from the constructor's arguments.</p>
+            <p>Methods can be defined with <span class="important">def</span>, and fields can be defined with <span class="important">val or var</span></p>
+            <p>The function name can be <span class="important">any characters</span> like +,-,*,/.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |class Rational(n: Int, d: Int) {
+                |  private def gcd(x: Int, y: Int): Int = {
+                |    if (x == 0) y
+                |    else if (x < 0) gcd(-x, y)
+                |    else if (y < 0) -gcd(x, -y)
+                |    else gcd(y % x, x)
+                |  }
+                |  private val g = gcd(n, d)
+                |  val numer: Int = n/g
+                |  val denom: Int = d/g
+                |  def +(that: Rational) =new Rational(numer * that.denom + that.numer * denom,denom * that.denom)
+                |  def -(that: Rational) =new Rational(numer * that.denom - that.numer * denom,denom * that.denom)
+                |  def *(that: Rational) =new Rational(numer * that.numer, denom * that.denom)
+                |  def /(that: Rational) =new Rational(numer * that.denom, denom * that.numer)
+                |  override def toString = numer + "/" + denom
+                |}
+                |
+                |println(new Rational(2, 3) + new Rational(4, 3))
+            """.stripMargin, defineClassDescription)
+        ), buttons
+    )
+</div>
+
+<div id="duck-type" class="step slide deeply" data-x="5500" data-y="-2000" data-z="-3000">
+    @duckTypingDescription = @{
+        """ <h2>Duck Typing</h2>
+
+            <p>When I see a bird that walks like a duck, swims like a duck and quacks like a duck, I call that bird a duck.</p>
+            <p>This example uses</p>
+            <pre>{ def close(): Unit }</pre>
+            <p>as the type of argument.So any class contains methods 'close()' can be passed.</p>
+            <p>And there's no need to use 'inherit'。</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |def withClose(closeAble: { def close(): Unit },
+                |    op: { def close(): Unit } => Unit) {
+                |  try {
+                |    op(closeAble)
+                |  } finally {
+                |    closeAble.close()
+                |  }
+                |}
+                |
+                |class Connection {
+                |  def close() = println("close Connection")
+                |}
+                |
+                |val conn: Connection = new Connection()
+                |withClose(conn, conn => println("do something with Connection"))
+            """.stripMargin, duckTypingDescription)
+        ), buttons
+    )
+</div>
+
+<div id="currying" class="step slide deeply" data-x="7000" data-y="-2000" data-z="-3000">
+    @curryingDescription = @{
+        """ <h2>Currying</h2>
+
+            <p>This example is similar to the previous one.The difference between them is this one leverages <span class="important">currying<span> technology</p>
+            <pre>def add(x:Int, y:Int) = x + y</pre>
+            <p>is a normal function</p>
+            <pre>def add(x:Int) = (y:Int) =&gt; x + y</pre>
+            <p>is a curried function.The return value is a function expression.</p>
+            <pre>def add(x:Int)(y:Int) = x + y</pre>
+            <p>is syntactic sugar</p>
+            <p>Currying can let our code look like it is part of the language.</p>
+            <p>Try to change the withclose(...)(...) to withclose(...){...}</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |def withClose(closeAble: { def close(): Unit })
+                |    (op: { def close(): Unit } => Unit) {
+                |  try {
+                |    op(closeAble)
+                |  } finally {
+                |    closeAble.close()
+                |  }
+                |}
+                |
+                |class Connection {
+                |  def close() = println("close Connection")
+                |}
+                |
+                |val conn: Connection = new Connection()
+                |withClose(conn)( conn => println("do something with Connection") )
+            """.stripMargin, curryingDescription),
+            ("""
+                |def withClose(closeAble: { def close(): Unit })
+                |    (op: { def close(): Unit } => Unit) {
+                |  try {
+                |    op(closeAble)
+                |  } finally {
+                |    closeAble.close()
+                |  }
+                |}
+                |
+                |class Connection {
+                |  def close() = println("close Connection")
+                |}
+                |
+                |val conn: Connection = new Connection()
+                |withClose(conn){ conn => println("do something with Connection") }
+            """.stripMargin, curryingDescription)
+        ), buttons
+    )
+</div>
+
+<div id="traits" class="step slide deeply" data-x="8500" data-y="-2000" data-z="-3000">
+    @traitsDescription = @{
+        """ <h2>Traits</h2>
+
+            <p>Traits look like Java's interfaces, but with function blocks. One class can extend several traits using the <span class="important">with</span> keyword.</p>
+            <p>This example extends java.util.ArrayList with a foreach loop.</p>
+            <p>Try to append after ForEachAble[Int] with</p>
+            <pre>with JsonAble</pre>
+            <p>to extend the ability of toJson</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |trait ForEachAble[A] {
+                |  def iterator: java.util.Iterator[A]
+                |  def foreach(f: A => Unit) = {
+                |    val iter = iterator
+                |    while (iter.hasNext)
+                |      f(iter.next)
+                |  }
+                |}
+                |
+                |trait JsonAble {
+                |  def toJson() =
+                |    scala.util.parsing.json.JSONFormat.defaultFormatter(this)
+                |}
+                |
+                |val list = new java.util.ArrayList[Int]() with ForEachAble[Int]
+                |list.add(1); list.add(2)
+                |
+                |println("For each: "); list.foreach(x => println(x))
+                |//println("Json: " + list.toJson())
+            """.stripMargin, traitsDescription),
+            ("""
+                |trait ForEachAble[A] {
+                |  def iterator: java.util.Iterator[A]
+                |  def foreach(f: A => Unit) = {
+                |    val iter = iterator
+                |    while (iter.hasNext)
+                |      f(iter.next)
+                |  }
+                |}
+                |
+                |trait JsonAble {
+                |  def toJson() =
+                |    scala.util.parsing.json.JSONFormat.defaultFormatter(this)
+                |}
+                |
+                |val list = new java.util.ArrayList[Int]() with ForEachAble[Int] with JsonAble
+                |list.add(1); list.add(2)
+                |
+                |println("For each: "); list.foreach(x => println(x))
+                |println("Json: " + list.toJson())
+            """.stripMargin, traitsDescription)
+        ), buttons
+    )
+</div>

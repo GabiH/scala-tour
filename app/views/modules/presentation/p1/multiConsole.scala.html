@@ -1,4 +1,4 @@
-@(pages : List[(String, String)])
+@(pages : List[(String, String)], buttons: String)
 
 <div class="row-fluid">
     <div class="pages">
@@ -24,9 +24,7 @@
                     </div>
                     <div class="span4">
                         @Html(page._2)
-                        <div class="step-nav">
-                            <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
-                        </div>
+                        @Html(buttons)
                     </div>
                 </div>
             }

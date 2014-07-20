@@ -1,0 +1,184 @@
+@buttons = @{
+    """ <div class="step-nav">
+           <a class="btn pre-step" type="button"><i class="icon-arrow-left">&nbsp;</i>Prev Page</a> <a class="btn" type="button" href="#/practice-contents"><i class="icon-arrow-up">&nbsp;</i>Content</a> <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+        </div>"""
+}
+
+<div id="practice" class="step direction" data-x="1500" data-y="500" data-scale="2">
+    <div class="chapter">
+        <h2>
+            <span class="mouse">Practice</span><a class="btn btn-warning btn-large" href="#/practice-contents">Start</a>
+        </h2>
+    </div>
+</div>
+<div id="practice-contents" class="step contents slide deeply" data-x="-3500" data-y="2700" data-z="-3000" data-scale="1">
+    <div>
+        <h2>Content(Practice)</h2>
+
+        <ul>
+            <li><a href="#/equality">Equality</a></li>
+            <li><a href="#/extractor">Extractor</a></li>
+            <li><a href="#/memory-pattern">Memory Pattern</a></li>
+            <li><a href="#/implicit-conversion">Implicit Conversion</a></li>
+        </ul>
+    </div>
+    <div class="step-nav">
+        <a class="btn" type="button" href="#/overview"><i class="icon-arrow-up">&nbsp;</i>Overview</a> <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+    </div>
+</div>
+
+<div id="equality" class="step slide deeply" data-x="-2000" data-y="2700" data-z="-3000">
+    @firstClassFunctionDescription = @{
+        """<h2>Equality</h2>
+
+            <p>In Scala <span class="important">== is the same as equals function</span>. It's not the same as Java, but it's more reasonable.</p>
+            <p>Correctly writing an equals function is difficult. This example has an issue with subclasses.</p>
+            <p>Try to change 'class' to 'case class', and delete the equals function.</p>
+            <p>Case Class correctly generates the equals function for us.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |class Person(val name: String) {
+                |  override def equals(other: Any) = other match {
+                |    case that: Person => name.equals(that.name)
+                |    case _ => false
+                |  }
+                |}
+                |
+                |println(new Person("Black") == new Person("Black"))
+            """.stripMargin, firstClassFunctionDescription),
+            ("""
+                |case class Person(val name: String) {
+                |  override def equals(other: Any) = other match {
+                |    case that: Person => name.equals(that.name)
+                |    case _ => false
+                |  }
+                |}
+                |
+                |println(new Person("Black") == new Person("Black"))
+            """.stripMargin, firstClassFunctionDescription)
+
+        ), buttons
+    )
+</div>
+
+<div id="extractor" class="step slide deeply" data-x="-500" data-y="2700" data-z="-3000">
+    @extractorDescription = @{
+        """<h2>Extractor</h2>
+
+            <p>Extractor objects can deconstruct pattern matches.</p>
+            <p>This example builds an Email Extractor, only the 'unapply function' is needed.</p>
+            <p>Scala's Regex contains an extractor, which extracts a List. The List elements sequentially match expressions captured in ().</p>
+            <p>Extractor is very useful. There are 2 cases in this example.</p>
+            <pre>case user :: domain :: Nil</pre>
+            <p>extracts a List.</p>
+            <pre>case Email(user, domain)</pre>
+            <p>extracts an Email object.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |import scala.util.matching.Regex
+                |
+                |object Email {
+                |  def unapply(str: String): Option[(String,String)] =
+                |  """.stripMargin + """"""""" + """(.*)@(.*)""" + """"""""" + """.r.unapplySeq(str).get match {
+                |    case user :: domain :: Nil => Some(user, domain)
+                |    case _ => None
+                |  }
+                |}
+                |
+                |"user@domain.com" match {
+                |  case Email(user, domain) => println(user + "@" + domain)
+                |}
+            """.stripMargin, extractorDescription)
+        ), buttons
+    )
+</div>
+
+<div id="memory-pattern" class="step slide deeply" data-x="1000" data-y="2700" data-z="-3000">
+    @memmoryPatternDescription = @{
+        """<h2>Memory Pattern</h2>
+
+            <p>Memory Pattern can be used to simplify caching.</p>
+            <p>In this example, the 'memo function' wraps a function without caching to add the simple cache capability.</p>
+            <p>In this Fibonacci example, a cache improves performance after the first call.</p>
+            <p>Try to change</p>
+            <pre>fibonacci_(n - 1) + fibonacci_(n - 2)</pre>
+            <p>to</p>
+            <pre>memo(fibonacci_)(n - 1) + memo(fibonacci_)(n - 2)</pre>
+            <p>This improves performance of the first call.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |import scala.collection.mutable.WeakHashMap
+                |
+                |val cache = new WeakHashMap[Int, Int]
+                |def memo(f: Int => Int) = (x: Int) => cache.getOrElseUpdate(x, f(x))
+                |
+                |def fibonacci_(in: Int): Int = in match {
+                |  case 0 => 0;
+                |  case 1 => 1;
+                |  case n: Int => fibonacci_(n - 1) + fibonacci_(n - 2)
+                |}
+                |val fibonacci: Int => Int = memo(fibonacci_)
+                |
+                |val t1 = System.currentTimeMillis()
+                |println(fibonacci(40))
+                |println("it takes " + (System.currentTimeMillis() - t1) + "ms")
+                |
+                |val t2 = System.currentTimeMillis()
+                |println(fibonacci(40))
+                |println("it takes " + (System.currentTimeMillis() - t2) + "ms")
+            """.stripMargin, memmoryPatternDescription),
+            ("""
+                |import scala.collection.mutable.WeakHashMap
+                |
+                |val cache = new WeakHashMap[Int, Int]
+                |def memo(f: Int => Int) = (x: Int) => cache.getOrElseUpdate(x, f(x))
+                |
+                |def fibonacci_(in: Int): Int = in match {
+                |  case 0 => 0;
+                |  case 1 => 1;
+                |  case n: Int => memo(fibonacci_)(n - 1) + memo(fibonacci_)(n - 2)
+                |}
+                |val fibonacci: Int => Int = memo(fibonacci_)
+                |
+                |val t1 = System.currentTimeMillis()
+                |println(fibonacci(40))
+                |println("it takes " + (System.currentTimeMillis() - t1) + "ms")
+                |
+                |val t2 = System.currentTimeMillis()
+                |println(fibonacci(40))
+                |println("it takes " + (System.currentTimeMillis() - t2) + "ms")
+            """.stripMargin, memmoryPatternDescription)
+        ), buttons
+    )
+@*</div>*@
+
+<div id="implicit-conversion" class="step slide deeply" data-x="2500" data-y="2700" data-z="-3000">
+    @conversionDescription = @{
+        """<h2>Implicit Conversion</h2>
+
+            <p>Implicit can be used to define a Conversion function. Types are automatically implicitly converted when needed.</p>
+            <p>This example converts String to Date automatically. Implicit is the most important feature when implementing a DSL.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |import java.text.SimpleDateFormat
+                |
+                |implicit def strToDate(str: String) =
+                |new SimpleDateFormat("yyyy-MM-dd").parse(str)
+                |
+                |println("2013-01-01 unix time: " + "2013-01-01".getTime()/1000l)
+            """.stripMargin, conversionDescription)
+        ), buttons
+    )
+</div>

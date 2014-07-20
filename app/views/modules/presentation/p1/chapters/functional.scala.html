@@ -1,0 +1,333 @@
+
+@buttons = @{
+    """<div class="step-nav">
+        <a class="btn pre-step" type="button"><i class="icon-arrow-left">&nbsp;</i>Prev Page</a>
+        <a class="btn" type="button" href="#/funtional-contents"><i class="icon-arrow-up">&nbsp;</i>Content</a>
+        <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+    </div>"""
+}
+
+<div id="funtional" class="step direction" data-x="-1500" data-y="500" data-scale="2">
+    <div class="chapter">
+        <h2>
+            <span class="mouse">Functional</span><a class="btn btn-info btn-large" href="#/funtional-contents">Start</a>
+        </h2>
+    </div>
+</div>
+<div id="funtional-contents" class="step contents slide deeply" data-x="-3500" data-y="-500" data-z="-3000" data-scale="1">
+    <div>
+        <h2>Content (Functional)</h2>
+
+        <ul>
+            <li><a href="#/pattern-match">Pattern Matching</a></li>
+            <li><a href="#/case-class">Case Class</a></li>
+            <li><a href="#/function-power">Function Power</a></li>
+            <li><a href="#/word-count">Word Count</a></li>
+            <li><a href="#/powerful-for-loop">Powerful For Loop</a></li>
+            <li><a href="#/option">Option</a></li>
+            <li><a href="#/lazy-initialization">Lazy Initialization</a></li>
+        </ul>
+    </div>
+    <div class="step-nav">
+        <a class="btn" type="button" href="#/overview"><i class="icon-arrow-up">&nbsp;</i>Overview</a> <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+    </div>
+</div>
+
+<div id="pattern-match" class="step slide deeply" data-x="-2000" data-y="-500" data-z="-3000">
+    @commonDescription = @{"""
+        <h2>Pattern Matching</h2>
+
+        <p>Pattern Matching is more flexible than switch-case and simpler than if-else.</p>
+        <p>This example shows a Fibonacci function implemented with pattern matching. The case keyword matches on a value. The case _ means it can match anything.</p>
+
+        <p>Try to change</p>
+        <pre>case n: Int</pre>
+        <p>to</p>
+        <pre>case n: Int if (n > 1)</pre>
+
+        <p>Try to add before case _  with</p>
+        <pre>case n: String =&gt; fibonacci(n.toInt)</pre>
+        <p>to match String type.</p>   """
+    }
+
+    @modules.presentation.p1.multiConsole(List(
+        ("""
+            |def fibonacci(in: Any): Int = in match {
+            |	case 0 => 0
+            |	case 1 => 1
+            |	case n: Int => fibonacci(n - 1) + fibonacci(n - 2)
+            |	case _ => 0
+            |}
+            |
+            |println(fibonacci(3))
+            |//println(fibonacci(-3))
+            |//println(fibonacci("3"))
+        """.stripMargin, commonDescription),
+        ("""
+            |def fibonacci(in: Any): Int = in match {
+            |	case 0 => 0
+            |	case 1 => 1
+            |	case n: Int if (n > 1) => fibonacci(n - 1) + fibonacci(n - 2)
+            |	case _ => 0
+            |}
+            |
+            |println(fibonacci(3))
+            |println(fibonacci(-3))
+            |//println(fibonacci("3"))
+          """.stripMargin, commonDescription),
+        ("""
+            |def fibonacci(in: Any): Int = in match {
+            |	case 0 => 0
+            |	case 1 => 1
+            |	case n: Int if (n > 1) => fibonacci(n - 1) + fibonacci(n - 2)
+            |	case n: String => fibonacci(n.toInt)
+            |	case _ => 0
+            |}
+            |
+            |println(fibonacci(3))
+            |println(fibonacci(-3))
+            |println(fibonacci("3"))
+          """.stripMargin, commonDescription)),
+        buttons
+    )
+</div>
+
+<div id="case-class" class="step slide deeply" data-x="-500" data-y="-500" data-z="-3000">
+    @caseClassDescription = @{ """
+        <h2>Case Class</h2>
+
+        <p>Case classes are used to conveniently store and match on the contents of a class.
+            You can construct them without using new. It also has hashcode, equality and nice toString methods.
+        </p>
+        <p>Because of the require(n >= 0), it will throw an exception when the input is negative.</p>
+        """
+    }
+
+    @modules.presentation.p1.multiConsole(List(
+        ("""
+            |abstract class Expr
+            |
+            |case class FibonacciExpr(n: Int) extends Expr {
+            |	require(n >= 0)
+            |}
+            |
+            |case class SumExpr(a: Expr, b: Expr) extends Expr
+            |
+            |def value(in: Expr): Int = in match {
+            |	case FibonacciExpr(0) => 0
+            |	case FibonacciExpr(1) => 1
+            |	case FibonacciExpr(n) => value(SumExpr(FibonacciExpr(n - 1), FibonacciExpr(n - 2)))
+            |	case SumExpr(a, b) => value(a) + value(b)
+            |	case _ => 0
+            |}
+            |
+            |println(value(FibonacciExpr(3)))
+            |println(value(SumExpr(FibonacciExpr(3), FibonacciExpr(3))))
+        """.stripMargin, caseClassDescription)),
+        buttons
+    )
+</div>
+
+<div id="function-power" class="step slide deeply" data-x="1000" data-y="-500" data-z="-3000">
+    @functionPowerDescription = @{ """
+        <h2>Function Power</h2>
+
+        <p>This example determines whether there is an odd number in the list using imperative programming.</p>
+
+        <p>Try to change</p>
+        <pre>containsOdd(list)</pre>
+        <p>to</p>
+        <pre>list.exists((x: Int) => x % 2 ==1)</pre>
+
+        <p>Through treating function as arguments, programing can be more simple. It can be even changed to</p>
+        <pre>list.exists(_ % 2 == 1)</pre>
+        <p>	_ can be used to replace arguments</p>
+        <p>Ruby's power is from magic, but Scala's power is from science.</p>"""
+    }
+
+    @functionTruePowerDescription = @{
+        """<h2>Function True Power</h2>
+
+        <p>Besides simplifying code, functional programming is more concerned with <span class="important">Input & Output without side-effects</span>.</p>
+        <p>Like the Unix pipeline, simple commands can be combined together.</p>
+
+        <p>This example uses Scala code to simulate the function of</p>
+        <pre>cat file | grep 'warn' | grep '2013' | wc</pre>
+        <p>The first filter function in List accepts a function as an argument, returning a new filtered List as the input to the next function.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |val list = List(1, 2, 3, 4)
+                |
+                |def containsOdd(list: List[Int]): Boolean = {
+                |    for (i <- list) {
+                |       if (i % 2 == 1) return true;
+                |    }
+                |    return false;
+                |}
+                |
+                |println("list contains Odd ? " + containsOdd(list))
+            """.stripMargin, functionPowerDescription),
+            ("""
+                |val list = List(1, 2, 3, 4)
+                |
+                |/** def containsOdd(list: List[Int]): Boolean = {
+                |    for (i <- list) {
+                |       if (i % 2 == 1) return true;
+                |    }
+                |    return false;
+                |} **/
+                |
+                |println("list contains Odd ? " + list.exists((x: Int) => x % 2 == 1))
+            """.stripMargin, functionPowerDescription),
+            ("""
+                |val list = List(1, 2, 3, 4)
+                |
+                |/** def containsOdd(list: List[Int]): Boolean = {
+                |    for (i <- list) {
+                |       if (i % 2 == 1) return true;
+                |    }
+                |    return false;
+                |} **/
+                |
+                |println("list contains Odd ? " + list.exists(_ % 2 == 1))
+            """.stripMargin, functionPowerDescription),
+            ("""
+                |val file = List("warn 2013 msg", "warn 2012 msg",
+                |                "error 2013 msg", "warn 2013 msg")
+                |
+                |println("cat file | grep 'warn' | grep '2013' : "
+                |   + file.filter(_.contains("warn")).filter(_.contains("2013")))
+                |println("cat file | grep 'warn' | grep '2013' | wc : "
+                |   + file.filter(_.contains("warn")).filter(_.contains("2013")).size)
+            """.stripMargin, functionTruePowerDescription)
+        ), buttons
+    )
+</div>
+
+<div id="word-count" class="step slide deeply" data-x="4000" data-y="-500" data-z="-3000">
+    @wordCountDescription = @{ """
+        <h2>Word Count</h2>
+
+        <p>Word Count is a classic use case for Map Reduce. Map Reduce with functional programming is an intuitive solution to the Word Count problem.</p>
+        <p>The example shows two important functions <span class="important">'map'</span> and <span class="important">'reduceLeft'</span> in List.</p>
+        <p>The <span class="important">map</span> function accepts a translation expression and returns the translated list.</p>
+        <p>The <span class="important">reduceLeft</span> function accepts a combining expression and returns the combined result.</p>
+        <p><span class="important">Map and ReduceLeft can replace a for-loop expression, making code cleaner.</span></p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |val file = List("warn 2013 msg", "warn 2012 msg",
+                |  "error 2013 msg", "warn 2013 msg")
+                |
+                |def wordcount(str: String): Int = str.split(" ").count("msg" == _)
+                |
+                |val num = file.map(wordcount).reduceLeft(_ + _)
+                |
+                |println("wordcount:" + num)
+            """.stripMargin, wordCountDescription)
+        ), buttons
+    )
+</div>
+
+<div id="powerful-for-loop" class="step slide deeply" data-x="7000" data-y="-500" data-z="-3000">
+    @forLoopDescription = @{
+        """<h2>Powerful For Loop</h2>
+
+        <p>For-Loop is a common feature in imperative programming. Scala improved it to suit functional programming.</p>
+        <p>For-Loop expressions in Scala can also return a List. With 'yield' in the loop, the value after yield will be appended to the List.</p>
+        <p>This example replaces the map function with for loop.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |val file = List("warn 2013 msg", "warn 2012 msg",
+                |  "error 2013 msg", "warn 2013 msg")
+                |
+                |def wordcount(str: String): Int = str.split(" ").count("msg" == _)
+                |
+                |val counts =
+                |  for (line <- file)
+                |    yield wordcount(line)
+                |
+                |val num = counts.reduceLeft(_ + _)
+                |
+                |println("wordcount:" + num)
+            """.stripMargin, forLoopDescription)
+        ), buttons
+    )
+</div>
+
+<div id="option" class="step slide deeply" data-x="8500" data-y="-500" data-z="-3000">
+    @optionDescription = @{
+        """<h2>Option</h2>
+
+            <p>Scala provides an Option feature to avoid checking null everywhere.</p>
+            <p>This example creates a getProperty function, which returns Option instead of null. We don't need to check null, getting a value from Option is enough.</p>
+            <p>Using pattern matching is a common way to get the value of Option.    Use getOrElse() to set a default value when Option is None.</p>
+            <p>Another important thing is that Option contains lots of functions in List, so it can be used like a list most of time.</p>
+            <p>Goodbye NullException.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |def getProperty(name: String): Option[String] = {
+                |  val value = System.getProperty(name)
+                |  if (value != null) Some(value) else None
+                |}
+                |
+                |val osName = getProperty("os.name")
+                |
+                |osName match { //1
+                |  case Some(value) => println(value)
+                |  case _ => println("none")
+                |}
+                |
+                |println(osName.getOrElse("none")) //2
+                |
+                |osName.foreach(print _) //3
+            """.stripMargin, optionDescription)
+        ), buttons
+    )
+</div>
+
+
+<div id="lazy-initialization" class="step slide deeply" data-x="10000" data-y="-500" data-z="-3000">
+    @lazyDescription = @{
+        """<h2>Lazy Initialization</h2>
+
+            <p>Lazy can lazily initialize value.A field with the lazy keyword is only initialized when it is first accessed.</p>
+            <p>This example is to get the Scala Version Code from Github.
+            It takes a little time because of network latency. So we can get it with lazy to avoid unnecessary IO blocking.</p>
+            <p>Lazy is very suitable for the value takes lots of resources.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |class ScalaCurrentVersion(val url: String) {
+                |  lazy val source= {
+                |    println("fetching from url...")
+                |    scala.io.Source.fromURL(url).getLines().toList
+                |  }
+                |
+                |  lazy val majorVersion = source.find(_.contains("version.major"))
+                |  lazy val minorVersion = source.find(_.contains("version.minor"))
+                |}
+                |
+                |val version = new ScalaCurrentVersion(
+                |  "https://raw.githubusercontent.com/scala/scala/2.12.x/build.number")
+                |println("get scala version from " + version.url)
+                |
+                |version.majorVersion.foreach(println _)
+                |version.minorVersion.foreach(println _)
+            """.stripMargin, lazyDescription)
+        ), buttons
+    )
+</div>

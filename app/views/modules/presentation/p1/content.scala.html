@@ -22,6 +22,12 @@
         </p>   """
     }
 
+    @buttons = @{
+        """<div class="step-nav">
+            <a class="btn next-step" type="button"><i class="icon-arrow-right">&nbsp;</i>Next Page</a>
+        </div>"""
+    }
+
     @modules.presentation.p1.multiConsole(List(
         ("""
           |println("Hello, world!")
@@ -30,48 +36,17 @@
         ("""
           |println("Hello, world! There is no return :) ")
           """.stripMargin, commonDescription
-        ))
+        )),
+        buttons
     )
-</div>
-
-<div id="hello-world2" class="step slide" data-x="-500" data-y="-2000">
-    <div class="row-fluid">
-    @modules.presentation.p1.console(
-        """
-          | def square(a: Int) = a * a
-          |
-          | def squareWithBlock(a: Int) = {
-          |     a * a
-          | }
-          |
-          | val squareVal = (a: Int) => a * a
-          |
-          | def addOne(f: Int => Int, arg: Int) = f(arg) + 1
-          |
-          | println("square(2):" + square(2))
-          | println("squareWithBlock(2):" + squareWithBlock(2))
-          | println("squareVal(2):" + squareVal(2))
-          | println("addOne(squareVal,2):" + addOne(squareVal, 2))
-        """.stripMargin,
-        """
-            |<h2>Expressions and Values</h2>
-            |<p>
-            |    In Scala, almost everything is an expression.
-            |</p>
-            |<pre>println("hello wolrd")</pre>
-            |
-            |<p>is an expression,</p>
-            |<pre>"hello"+" world"</pre>
-            |
-            |<p>is also an expression.|</p>
-            |<p>Constants can be created with val, and variables can be created with var. More constants are better.</p>
-        """.stripMargin
-    )
-    </div>
 </div>
 
 <div id="overview" class="step" data-x="-500" data-y="500" data-scale="4"></div>
 
+@modules.presentation.p1.chapters.basics()
+@modules.presentation.p1.chapters.functional()
+@modules.presentation.p1.chapters.concurrent()
+@modules.presentation.p1.chapters.practice()
 
 <div id="discus" class="step" data-x="4500" data-y="3000" data-scale="1">
     <div>
