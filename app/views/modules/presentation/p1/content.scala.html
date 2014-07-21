@@ -36,6 +36,25 @@
         ("""
           |println("Hello, world! There is no return :) ")
           """.stripMargin, commonDescription
+        ),
+        ("""
+          |scala> println("Hello, world!") // Read-Eval-Print-Loop
+          |Hello, world!
+          """.stripMargin, commonDescription
+        ),
+        ("""
+          |object MyApp extends App { // Compiled version
+          |  println("Hello, world!")
+          |}
+          """.stripMargin, commonDescription
+        ),
+        ("""
+          |object MyApp { // Java style
+          |  def main(args: Array[String]) {
+          |    println("Hello, world!")
+          |  }
+          |}
+          """.stripMargin, commonDescription
         )),
         buttons
     )

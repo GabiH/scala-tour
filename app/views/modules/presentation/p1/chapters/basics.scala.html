@@ -34,7 +34,98 @@
 </div>
 
 <div id="expression-and-values" class="step slide deeply" data-x="-2000" data-y="-2000" data-z="-3000">
+    @expressionsAndValuesDescription = @{
+        """<h2>Expressions and Values</h2>
 
+            <p>In Scala, almost everything is an expression.</p>
+            <pre>println("hello wolrd")</pre>
+            <p>is an expression,</p>
+            <pre>"hello"+" world"</pre>
+            <p>is also an expression.</p>
+            <p>Constants can be created with val, and variables can be created with var. More constants are better.</p>"""
+    }
+
+    @modules.presentation.p1.multiConsole(
+        List(
+            ("""
+                |var helloWorld = "hello" + " world"
+                |println(helloWorld)
+                |
+                |val again = " again"
+                |helloWorld = helloWorld + again
+                |println(helloWorld)
+            """.stripMargin, expressionsAndValuesDescription),
+            ("""
+                |val map = Map("foo" -> 5, "bar" -> 6)
+                |println(map)
+                |
+                |import scala.collection.mutable
+                |val mutableMap = mutable.Map("Potatoes" -> 5, "Bananas" -> 7)
+                |println(mutableMap)
+                |
+                |mutableMap += ("Grapes" ->  10)
+                |println(mutableMap)
+            """.stripMargin, expressionsAndValuesDescription),
+            ("""
+                |
+                |  for (thing < thingsFromHere)
+                |    yield doSomething(thing)
+            """.stripMargin, expressionsAndValuesDescription),
+            ("""
+                |val things =
+                |  for (thing < thingsFromHere)
+                |    yield doSomething(thing)
+            """.stripMargin, expressionsAndValuesDescription),
+            ("""
+                |
+                |  if(fromHere) {
+                |    for (thing < thingsFromHere)
+                |      yield doSomething(thing)
+                |  } else {
+                |    for (thing < thingsFromThere)
+                |      yield thing
+                |  }
+            """.stripMargin, expressionsAndValuesDescription),
+            ("""
+                |val things =
+                |  if(fromHere) {
+                |    for (thing < thingsFromHere)
+                |      yield doSomething(thing)
+                |  } else {
+                |    for (thing < thingsFromThere)
+                |      yield thing
+                |  }
+            """.stripMargin, expressionsAndValuesDescription),
+            ("""
+                |
+                |  try {
+                |    if(fromHere) {
+                |      for (thing < thingsFromHere)
+                |        yield doSomething(thing)
+                |    } else {
+                |      for (thing < thingsFromThere)
+                |        yield thing
+                |    }
+                |  } catch {
+                |    case e => error(e); Nil
+                |  }
+            """.stripMargin, expressionsAndValuesDescription),
+            ("""
+                |val things =
+                |  try {
+                |    if(fromHere) {
+                |      for (thing < thingsFromHere)
+                |        yield doSomething(thing)
+                |    } else {
+                |      for (thing < thingsFromThere)
+                |        yield thing
+                |    }
+                |  } catch {
+                |    case e => error(e); Nil
+                |  }
+            """.stripMargin, expressionsAndValuesDescription)
+        ), buttons
+    )
 </div>
 
 <div id="first-class-function" class="step slide deeply" data-x="-500" data-y="-2000" data-z="-3000">
