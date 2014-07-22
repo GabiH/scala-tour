@@ -135,11 +135,6 @@ div.source {
 	color: #999;
 }
 
-.CodeMirror-matchingbracket {
-	color: #000 !important;
-	text-decoration: underline;
-}
-
 .CodeMirror-focused div.CodeMirror-selected {
 	background: #d0d0d0;
 }
@@ -157,11 +152,11 @@ pre, code {
 
 
 .controls {
-	position: absolute;
-	z-index: 10;
-	top: 1.2em;
-	right: 2em;
-	text-align: right;
+    position: relative;
+    z-index: 10;
+    top: 12px;
+    right: 12px;
+    text-align: right;
 }
 
 .output , .error {
@@ -250,9 +245,10 @@ color: #222;
 
 .step-nav{
 	position: absolute;
-	top: 90%;
+    bottom: 10px !important;
 	bottom: 0;
 	right: 0;
+    z-index: -1;
 }
 
 #designed-by {

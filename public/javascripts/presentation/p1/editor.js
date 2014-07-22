@@ -37,15 +37,24 @@
         $.each($(".editor"), function(index, textarea) {
             if(typeof(editorsMap[getElementPath(textarea)]) == "undefined") {
                 var editor = CodeMirror.fromTextArea(textarea, {
-                    theme: "solarized light",
+                    theme: "solarized dark",
                     matchBrackets: true,
                     indentUnit: 2,
                     lineWrapping: false,
                     tabSize: 2,
                     indentWithTabs: false,
                     mode: "text/x-scala",
-                    smartIndent :false,
-                    lineNumbers: false
+                    smartIndent :true,
+                    lineNumbers: false,
+                    extraKeys: {
+                        // Fullscreen
+                        "Ctrl-Enter": function(cm) {
+                            cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                        },
+                        "Esc": function(cm) {
+                            if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                        }
+                    }
                 });
                 editor.on("update", function(){
                     editor.save();
