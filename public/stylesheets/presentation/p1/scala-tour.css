@@ -152,10 +152,10 @@ pre, code {
 
 
 .controls {
-    position: relative;
+    position: absolute;
     z-index: 10;
-    top: 12px;
-    right: 12px;
+    top: 1.2em;
+    right: 2em;
     text-align: right;
 }
 
