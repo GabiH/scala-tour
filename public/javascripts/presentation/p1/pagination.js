@@ -17,18 +17,22 @@
         var slideLeft = function () {
             if (params.index > 1) {
                 // Hide the current page
-                $container.find("div.page[data-index=\"" + params.index + "\"]").hide();
+                var $currentPage = $container.find("div.page[data-index=\"" + params.index + "\"]");
+                $currentPage.hide();
+
+                var currentEditor = getEditor($currentPage.find(".editor"));
+                if(typeof(currentEditor) != "undefined" && currentEditor.getOption("fullScreen")) {
+                    currentEditor.setOption("fullScreen", false);
+                }
 
                 // Show the previous page
                 var $nextPage = $container.find("div.page[data-index=\"" + (params.index - 1) + "\"]").show();
 
                 params.index = params.index - 1;
 
-                if (typeof(ST) != "undefined" && typeof(ST.editor) != "undefined" && typeof(ST.editor.get) == "function") {
-                    var editor = ST.editor.get($nextPage.find(".editor"));
-                    if(typeof(editor) != "undefined") {
-                        editor.refresh();
-                    }
+                currentEditor = getEditor($nextPage.find(".editor"))
+                if(typeof(currentEditor) != "undefined") {
+                    currentEditor.refresh();
                 }
             }
         };
@@ -36,18 +40,22 @@
         var slideRight = function () {
             if (params.index < params.size) {
                 // Hide the current page
-                $container.find("div.page[data-index=\"" + params.index + "\"]").hide();
+                var $currentPage = $container.find("div.page[data-index=\"" + params.index + "\"]");
+                $currentPage.hide();
+
+                var currentEditor = getEditor($currentPage.find(".editor"));
+                if(typeof(currentEditor) != "undefined" && currentEditor.getOption("fullScreen")) {
+                    currentEditor.setOption("fullScreen", false);
+                }
 
                 // Show the previous page
                 var $prevPage = $container.find("div.page[data-index=\"" + (params.index + 1) + "\"]").show();
 
                 params.index = params.index + 1;
 
-                if (typeof(ST) != "undefined" && typeof(ST.editor) != "undefined" && typeof(ST.editor.get) == "function") {
-                    var editor = ST.editor.get($prevPage.find(".editor"));
-                    if(typeof(editor) != "undefined") {
-                        editor.refresh();
-                    }
+                currentEditor = getEditor($prevPage.find(".editor"))
+                if(typeof(currentEditor) != "undefined") {
+                    currentEditor.refresh();
                 }
             }
         };
@@ -103,6 +111,15 @@
             });
         }
     };
+
+    var getEditor = function(editorElem) {
+        if(typeof(editorElem) != "undefined") {
+            if (typeof(ST) != "undefined" && typeof(ST.editor) != "undefined" && typeof(ST.editor.get) == "function") {
+                return ST.editor.get(editorElem);
+            }
+        }
+        return undefined;
+    }
 
     pagination.init = function (options) {
         $.each($(".pages"), function (index, pageBlock) {
