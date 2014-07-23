@@ -36,7 +36,7 @@
     editor.init = function (options) {
         $.each($(".editor"), function(index, textarea) {
             if(typeof(editorsMap[getElementPath(textarea)]) == "undefined") {
-                var editor = CodeMirror.fromTextArea(textarea, {
+                var $editor = CodeMirror.fromTextArea(textarea, {
                     theme: "solarized dark",
                     matchBrackets: true,
                     indentUnit: 2,
@@ -51,20 +51,30 @@
                         "Ctrl-Enter": function(cm) {
                             cm.setOption("fullScreen", !cm.getOption("fullScreen"));
                         },
+                        // Exit fulscreen
                         "Esc": function(cm) {
                             if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                        },
+                        // Transform tab to spaces
+                        "Tab": function(cm) {
+                            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                            cm.replaceSelection(spaces);
                         }
                     }
                 });
-                editor.on("update", function(){
-                    editor.save();
+                $editor.on("update", function(){
+                    $editor.save();
                 });
 
-                editors.push(editor)
-                editorsMap[getElementPath(textarea)]=editor
+                // Add action to the maximize button
+                $(textarea).closest(".workspace").find(".maximize").click(function () {
+                    $editor.setOption("fullScreen", !$editor.getOption("fullScreen"));
+                    $editor.focus();
+                });
+
+                editors.push($editor)
+                editorsMap[getElementPath(textarea)]=$editor
             }
         });
     };
-
-
 }(window));
