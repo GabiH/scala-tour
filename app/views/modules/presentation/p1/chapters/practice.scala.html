@@ -51,10 +51,10 @@
             """.stripMargin, firstClassFunctionDescription),
             ("""
                 |case class Person(val name: String) {
-                |  override def equals(other: Any) = other match {
+                |  /*override def equals(other: Any) = other match {
                 |    case that: Person => name.equals(that.name)
                 |    case _ => false
-                |  }
+                |  }*/
                 |}
                 |
                 |println(new Person("Black") == new Person("Black"))
@@ -159,7 +159,7 @@
             """.stripMargin, memmoryPatternDescription)
         ), buttons
     )
-@*</div>*@
+</div>
 
 <div id="implicit-conversion" class="step slide deeply" data-x="2500" data-y="2700" data-z="-3000">
     @conversionDescription = @{
@@ -178,6 +178,122 @@
                 |new SimpleDateFormat("yyyy-MM-dd").parse(str)
                 |
                 |println("2013-01-01 unix time: " + "2013-01-01".getTime()/1000l)
+            """.stripMargin, conversionDescription),
+            ("""
+                |class Complex(val real : Double, val imag : Double) {
+                |  def +(that: Complex) =
+                |            new Complex(this.real + that.real, this.imag + that.imag)
+                |
+                |  def -(that: Complex) =
+                |            new Complex(this.real - that.real, this.imag - that.imag)
+                |
+                |  override def toString = real + " + " + imag + "i"
+                |}
+                |
+                |var a = new Complex(4.0,5.0)
+                |var b = new Complex(2.0,3.0)
+                |println(a)  // 4.0 + 5.0i
+                |println(a + b)  // 6.0 + 8.0i
+                |println(a - b)  // 2.0 + 2.0i
+            """.stripMargin, conversionDescription),
+            ("""
+                |class Complex(val real : Double, val imag : Double) {
+                |  def +(that: Complex) =
+                |            new Complex(this.real + that.real, this.imag + that.imag)
+                |
+                |  def -(that: Complex) =
+                |            new Complex(this.real - that.real, this.imag - that.imag)
+                |
+                |  override def toString = real + " + " + imag + "i"
+                |}
+                |
+                |var a = new Complex(4.0,5.0)
+                |
+                |println(a + 8.5)  // can we do this? ok, let's see...
+            """.stripMargin, conversionDescription),
+            ("""
+                |class Complex(val real : Double, val imag : Double) {
+                |  def +(that: Complex) =
+                |            new Complex(this.real + that.real, this.imag + that.imag)
+                |
+                |  def -(that: Complex) =
+                |            new Complex(this.real - that.real, this.imag - that.imag)
+                |
+                |  def +(n: Double) = new Complex(this.real + n, this.imag)
+                |
+                |  override def toString = real + " + " + imag + "i"
+                |}
+                |
+                |var a = new Complex(4.0,5.0)
+                |
+                |println(a + 8.5)
+            """.stripMargin, conversionDescription),
+            ("""
+                |class Complex(val real : Double, val imag : Double) {
+                |  def +(that: Complex) =
+                |            new Complex(this.real + that.real, this.imag + that.imag)
+                |
+                |  def -(that: Complex) =
+                |            new Complex(this.real - that.real, this.imag - that.imag)
+                |
+                |  def +(n: Double) = new Complex(this.real + n, this.imag)
+                |
+                |  override def toString = real + " + " + imag + "i"
+                |}
+                |
+                |var a = new Complex(4.0,5.0)
+                |
+                |println(a + 8.5)
+                |//println(8.5 + a)  what about now ?
+            """.stripMargin, conversionDescription),
+            ("""
+                |import ComplexImplicits._
+
+                |object ComplexImplicits {
+                |   implicit def Double2Complex(value : Double) = new Complex(value,0.0)
+                |}
+                |
+                |class Complex(val real : Double, val imag : Double) {
+                |  def +(that: Complex) =
+                |            new Complex(this.real + that.real, this.imag + that.imag)
+                |
+                |  def -(that: Complex) =
+                |            new Complex(this.real - that.real, this.imag - that.imag)
+                |
+                |  def +(n: Double) = new Complex(this.real + n, this.imag)
+                |
+                |  override def toString = real + " + " + imag + "i"
+                |}
+                |
+                |var a = new Complex(4.0,5.0)
+                |
+                |println(a + 8.5)
+                |println(8.5 + a)
+            """.stripMargin, conversionDescription),
+            ("""
+                |import ComplexImplicits._
+                |
+                |object ComplexImplicits {
+                |   implicit def Double2Complex(value : Double) = new Complex(value,0.0)
+                |
+                |   implicit def Tuple2Complex(value : Tuple2[Double,Double]) = new Complex(value._1,value._2);
+                |}
+                |
+                |class Complex(val real : Double, val imag : Double) {
+                |  def +(that: Complex) =
+                |            new Complex(this.real + that.real, this.imag + that.imag)
+                |
+                |  def -(that: Complex) =
+                |            new Complex(this.real - that.real, this.imag - that.imag)
+                |
+                |  def +(n: Double) = new Complex(this.real + n, this.imag)
+                |
+                |  override def toString = real + " + " + imag + "i"
+                |}
+                |
+                |var a = new Complex(4.0,5.0)
+                |
+                |println((1.0, 2.0) + a)
             """.stripMargin, conversionDescription)
         ), buttons
     )

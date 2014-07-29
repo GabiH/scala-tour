@@ -275,6 +275,7 @@
                 |  private val g = gcd(n, d)
                 |  val numer: Int = n/g
                 |  val denom: Int = d/g
+                |
                 |  def +(that: Rational) =new Rational(numer * that.denom + that.numer * denom,denom * that.denom)
                 |  def -(that: Rational) =new Rational(numer * that.denom - that.numer * denom,denom * that.denom)
                 |  def *(that: Rational) =new Rational(numer * that.numer, denom * that.denom)
@@ -304,6 +305,7 @@
             ("""
                 |def withClose(closeAble: { def close(): Unit },
                 |    op: { def close(): Unit } => Unit) {
+                |
                 |  try {
                 |    op(closeAble)
                 |  } finally {
@@ -342,6 +344,7 @@
             ("""
                 |def withClose(closeAble: { def close(): Unit })
                 |    (op: { def close(): Unit } => Unit) {
+                |
                 |  try {
                 |    op(closeAble)
                 |  } finally {
@@ -359,6 +362,7 @@
             ("""
                 |def withClose(closeAble: { def close(): Unit })
                 |    (op: { def close(): Unit } => Unit) {
+                |
                 |  try {
                 |    op(closeAble)
                 |  } finally {

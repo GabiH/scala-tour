@@ -53,10 +53,10 @@
     @modules.presentation.p1.multiConsole(List(
         ("""
             |def fibonacci(in: Any): Int = in match {
-            |	case 0 => 0
-            |	case 1 => 1
-            |	case n: Int => fibonacci(n - 1) + fibonacci(n - 2)
-            |	case _ => 0
+            |  case 0 => 0
+            |  case 1 => 1
+            |  case n: Int => fibonacci(n - 1) + fibonacci(n - 2)
+            |  case _ => 0
             |}
             |
             |println(fibonacci(3))
@@ -65,10 +65,10 @@
         """.stripMargin, commonDescription),
         ("""
             |def fibonacci(in: Any): Int = in match {
-            |	case 0 => 0
-            |	case 1 => 1
-            |	case n: Int if (n > 1) => fibonacci(n - 1) + fibonacci(n - 2)
-            |	case _ => 0
+            |  case 0 => 0
+            |  case 1 => 1
+            |  case n: Int if (n > 1) => fibonacci(n - 1) + fibonacci(n - 2)
+            |  case _ => 0
             |}
             |
             |println(fibonacci(3))
@@ -77,11 +77,11 @@
           """.stripMargin, commonDescription),
         ("""
             |def fibonacci(in: Any): Int = in match {
-            |	case 0 => 0
-            |	case 1 => 1
-            |	case n: Int if (n > 1) => fibonacci(n - 1) + fibonacci(n - 2)
-            |	case n: String => fibonacci(n.toInt)
-            |	case _ => 0
+            |  case 0 => 0
+            |  case 1 => 1
+            |  case n: Int if (n > 1) => fibonacci(n - 1) + fibonacci(n - 2)
+            |  case n: String => fibonacci(n.toInt)
+            |  case _ => 0
             |}
             |
             |println(fibonacci(3))
@@ -108,17 +108,17 @@
             |abstract class Expr
             |
             |case class FibonacciExpr(n: Int) extends Expr {
-            |	require(n >= 0)
+            |  require(n >= 0)
             |}
             |
             |case class SumExpr(a: Expr, b: Expr) extends Expr
             |
             |def value(in: Expr): Int = in match {
-            |	case FibonacciExpr(0) => 0
-            |	case FibonacciExpr(1) => 1
-            |	case FibonacciExpr(n) => value(SumExpr(FibonacciExpr(n - 1), FibonacciExpr(n - 2)))
-            |	case SumExpr(a, b) => value(a) + value(b)
-            |	case _ => 0
+            |  case FibonacciExpr(0) => 0
+            |  case FibonacciExpr(1) => 1
+            |  case FibonacciExpr(n) => value(SumExpr(FibonacciExpr(n - 1), FibonacciExpr(n - 2)))
+            |  case SumExpr(a, b) => value(a) + value(b)
+            |  case _ => 0
             |}
             |
             |println(value(FibonacciExpr(3)))
@@ -162,10 +162,10 @@
                 |val list = List(1, 2, 3, 4)
                 |
                 |def containsOdd(list: List[Int]): Boolean = {
-                |    for (i <- list) {
-                |       if (i % 2 == 1) return true;
-                |    }
-                |    return false;
+                |  for (i <- list) {
+                |    if (i % 2 == 1) return true;
+                |  }
+                |  return false;
                 |}
                 |
                 |println("list contains Odd ? " + containsOdd(list))
@@ -174,10 +174,10 @@
                 |val list = List(1, 2, 3, 4)
                 |
                 |/** def containsOdd(list: List[Int]): Boolean = {
-                |    for (i <- list) {
-                |       if (i % 2 == 1) return true;
-                |    }
-                |    return false;
+                |  for (i <- list) {
+                |    if (i % 2 == 1) return true;
+                |  }
+                |  return false;
                 |} **/
                 |
                 |println("list contains Odd ? " + list.exists((x: Int) => x % 2 == 1))
@@ -186,10 +186,10 @@
                 |val list = List(1, 2, 3, 4)
                 |
                 |/** def containsOdd(list: List[Int]): Boolean = {
-                |    for (i <- list) {
-                |       if (i % 2 == 1) return true;
-                |    }
-                |    return false;
+                |  for (i <- list) {
+                |    if (i % 2 == 1) return true;
+                |  }
+                |  return false;
                 |} **/
                 |
                 |println("list contains Odd ? " + list.exists(_ % 2 == 1))
@@ -234,7 +234,7 @@
     )
 </div>
 
-<div id="powerful-for-loop" class="step slide deeply" data-x="7000" data-y="-500" data-z="-3000">
+<div id="powerful-for-loop" class="step slide deeply" data-x="4000" data-y="-500" data-z="-3000">
     @forLoopDescription = @{
         """<h2>Powerful For Loop</h2>
 
@@ -263,7 +263,7 @@
     )
 </div>
 
-<div id="option" class="step slide deeply" data-x="4000" data-y="-500" data-z="-3000">
+<div id="option" class="step slide deeply" data-x="5500" data-y="-500" data-z="-3000">
     @optionDescription = @{
         """<h2>Option</h2>
 
@@ -298,7 +298,7 @@
 </div>
 
 
-<div id="lazy-initialization" class="step slide deeply" data-x="5500" data-y="-500" data-z="-3000">
+<div id="lazy-initialization" class="step slide deeply" data-x="7000" data-y="-500" data-z="-3000">
     @lazyDescription = @{
         """<h2>Lazy Initialization</h2>
 
